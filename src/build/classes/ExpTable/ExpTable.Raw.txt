@@ -1,0 +1,91 @@
+int __cdecl NEXTLEVEL::NEXTLEVEL()
+{
+  signed int level_fifteen; // edi@1
+  int v1; // eax@1
+  int v2; // eax@3
+  signed int level_thirtyfive; // edi@3
+  signed int v4; // edi@5
+  int v5; // eax@7
+  signed int v6; // edi@7
+  int v7; // eax@9
+  signed int v8; // edi@9
+  signed int v9; // edi@11
+
+  level[2] = 34;
+  level[3] = 57;
+  level[4] = 92;
+  level[5] = 135;
+  level_fifteen = 15;
+  level[1] = 15;
+  level[6] = 372;
+  level[7] = 560;
+  level[8] = 840;
+  level[9] = 1242;
+  v1 = level[9];
+  level[10] = v1;
+  level[11] = v1;
+  level[12] = v1;
+  level[13] = v1;
+  level[14] = v1;
+  do
+  {
+    level[level_fifteen] = (signed int)((double)level[level_fifteen - 1] * 1.2 + 0.5);
+    ++level_fifteen;
+  }
+  while ( level_fifteen <= 29 );
+  v2 = level[29];
+  level[30] = v2;
+  level[31] = v2;
+  level[32] = v2;
+  level[33] = v2;
+  level[34] = v2;
+  level_thirtyfive = 35;
+  do
+  {
+    level[level_thirtyfive] = (signed int)((double)level[level_thirtyfive - 1] * 1.2 + 0.5);
+    ++level_thirtyfive;
+  }
+  while ( level_thirtyfive <= 39 );
+  v4 = 40;
+  do
+  {
+    level[v4] = (signed int)((double)level[v4 - 1] * 1.08 + 0.5);
+    ++v4;
+  }
+  while ( v4 <= 69 );
+  v5 = level[69];
+  level[70] = v5;
+  level[71] = v5;
+  level[72] = v5;
+  level[73] = v5;
+  level[74] = v5;
+  v6 = 75;
+  do
+  {
+    level[v6] = (signed int)((double)level[v6 - 1] * 1.07 + 0.5);
+    ++v6;
+  }
+  while ( v6 <= 119 );
+  v7 = level[119];
+  level[120] = v7;
+  level[121] = v7;
+  level[122] = v7;
+  level[123] = v7;
+  level[124] = v7;
+  v8 = 125;
+  do
+  {
+    level[v8] = (signed int)((double)level[v8 - 1] * 1.07 + 0.5);
+    ++v8;
+  }
+  while ( v8 <= 159 );
+  v9 = 160;
+  do
+  {
+    level[v9] = (signed int)((double)level[v9 - 1] * 1.06 + 0.5);
+    ++v9;
+  }
+  while ( v9 <= 199 );
+  level[200] = 0;
+  return (int)level;
+}
