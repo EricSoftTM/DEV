@@ -183,12 +183,12 @@ public abstract class MapleEvent {
         cserv.setEvent(-1);
     }
 
-    public static void mapLoad(final MapleCharacter chr, final int channel) {
+    public static void mapLoad(final MapleCharacter chr, final int world, final int channel) {
 	if (chr == null) {
 	    return;
 	} //o_o
         for (MapleEventType t : MapleEventType.values()) {
-            final MapleEvent e = ChannelServer.getInstance(1, channel).getEvent(t);
+            final MapleEvent e = ChannelServer.getInstance(world, channel).getEvent(t);
             if (e.isRunning) {
                 if (chr.getMapId() == 109050000) { //finished map
                     e.finished(chr);

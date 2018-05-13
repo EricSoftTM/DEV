@@ -2300,7 +2300,7 @@ public final class MapleMap {
             if (chr.getCarnivalParty() != null && chr.getEventInstance() != null) {
                 chr.getEventInstance().onMapLoad(chr);
             }
-            MapleEvent.mapLoad(chr, channel);
+            MapleEvent.mapLoad(chr, world, channel);
             if (getSquadBegin() != null && getSquadBegin().getTimeLeft() > 0 && getSquadBegin().getStatus() == 1) {
                 chr.getClient().getSession().write(CField.getClock((int) (getSquadBegin().getTimeLeft() / 1000)));
             }
@@ -3823,6 +3823,10 @@ public final class MapleMap {
 
     public int getChannel() {
         return channel;
+    }
+    
+    public int getWorld() {
+        return world;
     }
 
     public int getConsumeItemCoolTime() {

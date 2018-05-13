@@ -979,7 +979,7 @@ public class MapleClient implements Serializable {
             }
 
             if (!fromCS) {
-                final ChannelServer ch = ChannelServer.getInstance(world, map == null ? channel : map.getChannel());
+                final ChannelServer ch = ChannelServer.getInstance(map == null ? player.getWorld() : map.getWorld(), map == null ? channel : map.getChannel());
                 final int chz = World.Find.findChannel(idz);
                 if (chz < -1) {
                     disconnect(RemoveInChannelServer, true);//u lie
@@ -1027,7 +1027,7 @@ public class MapleClient implements Serializable {
                 } finally {
                     if (RemoveInChannelServer && ch != null) {
                         ch.getPlayerStorage().removePlayer(idz);
-                        World world = LoginServer.getInstance().getWorld(getWorld());
+                        World world = LoginServer.getInstance().getWorld(player.getWorld());
                         world.getPlayerStorage().removePlayer(player.getId());
                     }
                     //    player.getClient().getSession().close(true);
