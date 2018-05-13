@@ -170,14 +170,12 @@ public class InterServerHandler {
             return;
         }
         c.updateLoginState(MapleClient.LOGIN_LOGGEDIN, c.getSessionIPAddress());
-        channelServer.addPlayer(player);
+        LoginServer.getInstance().getWorld(player.getWorld()).addPlayer(player);
         player.giveCoolDowns(PlayerBuffStorage.getCooldownsFromStorage(player.getId()));
         player.silentGiveBuffs(PlayerBuffStorage.getBuffsFromStorage(player.getId()));
         player.giveSilentDebuff(PlayerBuffStorage.getDiseaseFromStorage(player.getId()));
         c.getSession().write(CField.getCharInfo(player));
         player.getMap().addPlayer(player);
-        World world = LoginServer.getInstance().getWorld(c.getWorld());
-        world.getPlayerStorage().addPlayer(player);
         c.getSession().write(MTSCSPacket.enableCSUse());
         c.getSession().write(CWvsContext.temporaryStats_Reset()); //?
         
