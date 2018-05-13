@@ -154,14 +154,14 @@ public class InternCommand {
                     c.getPlayer().dropMessage(5, "You are on map " + c.getPlayer().getMapId());
                     return true;
                 case "online":
-                    for (ChannelServer ch : LoginServer.getInstance().getWorld(c.getWorld()).getChannels()) {
+                    for (ChannelServer ch : LoginServer.getInstance().getWorld(player.getWorld()).getChannels()) {
                         c.getPlayer().dropMessage(6, "Characters connected to channel " + ch.getChannel() + ":");
-                        c.getPlayer().dropMessage(6, ChannelServer.getInstance(c.getWorld(), ch.getChannel()).getPlayerStorage().getOnlinePlayers(true));
+                        c.getPlayer().dropMessage(6, ChannelServer.getInstance(player.getWorld(), ch.getChannel()).getPlayerStorage().getOnlinePlayers(true));
                     }
                 return true;
                 case "onlinechannel":
                     c.getPlayer().dropMessage(6, "Characters connected to channel " + Integer.parseInt(splitted[1]) + ":");
-                    c.getPlayer().dropMessage(6, LoginServer.getInstance().getWorld(c.getWorld()).getChannel(Integer.parseInt(splitted[1])).getPlayerStorage().getOnlinePlayers(true));
+                    c.getPlayer().dropMessage(6, LoginServer.getInstance().getWorld(player.getWorld()).getChannel(Integer.parseInt(splitted[1])).getPlayerStorage().getOnlinePlayers(true));
                     return true;
                 case "itemcheck":
                     if (splitted.length < 3 || splitted[1] == null || splitted[1].equals("") || splitted[2] == null || splitted[2].equals("")) {
@@ -500,7 +500,7 @@ public class InternCommand {
                         if (splitted.length == 2) {
                             c.getPlayer().changeMap(victim.getMap(), victim.getMap().findClosestSpawnpoint(victim.getTruePosition()));
                         } else {
-                            targetmap = ChannelServer.getInstance(c.getWorld(), c.getChannel()).getMapFactory().getMap(Integer.parseInt(splitted[2]));
+                            targetmap = ChannelServer.getInstance(player.getWorld(), c.getChannel()).getMapFactory().getMap(Integer.parseInt(splitted[2]));
                             if (targetmap == null || targetmap.getId() == 682000700) {
                                 c.getPlayer().dropMessage(6, "Map does not exist");
                                 return true;
@@ -525,7 +525,7 @@ public class InternCommand {
                         try {
                             int ch = World.Find.findChannel(splitted[1]);
                             if (ch < 0) {
-                                targetmap = ChannelServer.getInstance(c.getWorld(), c.getChannel()).getMapFactory().getMap(Integer.parseInt(splitted[1]));
+                                targetmap = ChannelServer.getInstance(player.getWorld(), c.getChannel()).getMapFactory().getMap(Integer.parseInt(splitted[1]));
                                 if (targetmap == null || targetmap.getId() == 682000700) {
                                     c.getPlayer().dropMessage(6, "Map does not exist");
                                     return true;
@@ -563,7 +563,7 @@ public class InternCommand {
                     c.getPlayer().getMap().broadcastMessage(CField.getClock(CommandProcessorUtil.getOptionalIntArg(splitted, 1, 60)));
                     return true;
                 case "listallsquads":
-                    for (ChannelServer cserv : LoginServer.getInstance().getWorld(c.getWorld()).getChannels()) {
+                    for (ChannelServer cserv : LoginServer.getInstance().getWorld(player.getWorld()).getChannels()) {
                         for (Entry<MapleSquad.MapleSquadType, MapleSquad> squads : cserv.getAllSquads().entrySet()) {
                             c.getPlayer().dropMessage(5, "[Channel " + cserv.getChannel() + "] TYPE: " + squads.getKey().name() + ", Leader: " + squads.getValue().getLeader().getName() + ", status: " + squads.getValue().getStatus() + ", numMembers: " + squads.getValue().getSquadSize() + ", numBanned: " + squads.getValue().getBannedMemberSize());
                         }

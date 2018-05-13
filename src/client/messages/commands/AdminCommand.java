@@ -170,7 +170,7 @@ public class AdminCommand {
                         }
                     return true;
                 case "warpallhere":
-                    for (MapleCharacter chrs : ChannelServer.getInstance(c.getWorld(), c.getChannel()).getPlayerStorage().getAllCharacters()) {
+                    for (MapleCharacter chrs : ChannelServer.getInstance(player.getWorld(), c.getChannel()).getPlayerStorage().getAllCharacters()) {
                         if (!chrs.isGM() && chrs != player && chrs.getMapId() != player.getMapId()) {
                             chrs.changeMap(player.getMapId());
                         }

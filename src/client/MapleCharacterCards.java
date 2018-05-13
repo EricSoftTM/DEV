@@ -115,7 +115,7 @@ public class MapleCharacterCards {
     }
 
     public final void loadCards(final MapleClient c, final boolean channelserver) throws SQLException {
-        cards = CharacterCardFactory.getInstance().loadCharacterCards(c.getAccID(), c.getWorld());
+        cards = CharacterCardFactory.getInstance().loadCharacterCards(c.getAccID(), c.getPlayer() == null ? 0 : c.getPlayer().getWorld());
         if (channelserver) {
             calculateEffects();
         }

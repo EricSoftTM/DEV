@@ -120,7 +120,7 @@ public class MaplePortal {
                     e.printStackTrace();
                 }
             } else if (getTargetMapId() != 999999999) {
-                final MapleMap to = ChannelServer.getInstance(c.getWorld(), c.getChannel()).getMapFactory().getMap(getTargetMapId());
+                final MapleMap to = ChannelServer.getInstance(c.getPlayer().getWorld(), c.getChannel()).getMapFactory().getMap(getTargetMapId());
 				if (to == null) {
             	    c.getSession().write(CWvsContext.enableActions());
 					return;

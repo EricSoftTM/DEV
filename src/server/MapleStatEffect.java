@@ -1826,7 +1826,7 @@ case 12111007:
                 if (moveTo == 999999999) {
                     target = applyto.getMap().getReturnMap();
                 } else {
-                    target = ChannelServer.getInstance(applyto.getClient().getWorld(), applyto.getClient().getChannel()).getMapFactory().getMap(moveTo);
+                    target = ChannelServer.getInstance(applyto.getWorld(), applyto.getClient().getChannel()).getMapFactory().getMap(moveTo);
                     if (target.getId() / 10000000 != 60 && applyto.getMapId() / 10000000 != 61) {
                         if (target.getId() / 10000000 != 21 && applyto.getMapId() / 10000000 != 20) {
                             if (target.getId() / 10000000 != applyto.getMapId() / 10000000) {

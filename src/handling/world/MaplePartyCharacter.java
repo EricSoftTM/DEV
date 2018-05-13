@@ -46,7 +46,7 @@ public class MaplePartyCharacter implements Serializable {
         this.name = maplechar.getName();
         this.level = maplechar.getLevel();
         this.channel = maplechar.getClient().getChannel();
-        this.world = maplechar.getClient().getWorld();
+        this.world = maplechar.getWorld();
         this.id = maplechar.getId();
         this.jobid = maplechar.getJob();
         this.mapid = maplechar.getMapId();

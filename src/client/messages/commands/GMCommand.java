@@ -479,9 +479,9 @@ public class GMCommand {
             }
                  return true;
                 case "startevent":
-                    LoginServer.getInstance().getWorld(c.getWorld()).setEventOn(true);
-                    LoginServer.getInstance().getWorld(c.getWorld()).setEventMap(109040000);
-                    LoginServer.getInstance().getWorld(c.getWorld()).getAutoJQ().openAutoJQ();
+                    LoginServer.getInstance().getWorld(player.getWorld()).setEventOn(true);
+                    LoginServer.getInstance().getWorld(player.getWorld()).setEventMap(109040000);
+                    LoginServer.getInstance().getWorld(player.getWorld()).getAutoJQ().openAutoJQ();
                     World.Broadcast.broadcastMessage(player.getWorld(), CWvsContext.serverNotice(6, c.getChannel(), "[AutoJQ Event] " + player.getName() + " has just created an Automatic Jump Quest Event on Channel " + c.getChannel() + "! Use @join to join it."));
                  return true;
                     case "healmap":
@@ -724,10 +724,10 @@ public class GMCommand {
                  return true;
                 case "startjq":
                     int autojq = Integer.parseInt(splitted[1]);
-                    LoginServer.getInstance().getWorld(c.getWorld()).setEventOn(true);
-                    LoginServer.getInstance().getWorld(c.getWorld()).setEventMap(autojq);
-                    LoginServer.getInstance().getWorld(c.getWorld()).setJQChannel(c.getChannel());
-                    LoginServer.getInstance().getWorld(c.getWorld()).getAutoJQ().openAutoJQ();
+                    LoginServer.getInstance().getWorld(player.getWorld()).setEventOn(true);
+                    LoginServer.getInstance().getWorld(player.getWorld()).setEventMap(autojq);
+                    LoginServer.getInstance().getWorld(player.getWorld()).setJQChannel(c.getChannel());
+                    LoginServer.getInstance().getWorld(player.getWorld()).getAutoJQ().openAutoJQ();
                 
                     World.Broadcast.broadcastMessage(player.getWorld(), CWvsContext.serverNotice(6, c.getChannel(), "[AutoJQ Event] " + player.getName() + " has just created an Automatic Jump Quest Event On Channel " + c.getChannel() + "! Use @join to join it."));
                  return true;
@@ -1310,7 +1310,7 @@ public class GMCommand {
                     if (range == 0) {
                         c.getPlayer().getMap().broadcastMessage(packet);
                     } else if (range == 1) {
-                        ChannelServer.getInstance(c.getWorld(), c.getChannel()).broadcastPacket(packet);
+                        ChannelServer.getInstance(player.getWorld(), c.getChannel()).broadcastPacket(packet);
                     } else if (range == 2) {
                         World.Broadcast.broadcastMessage(player.getWorld(), packet);
                     }
@@ -1336,7 +1336,7 @@ public class GMCommand {
                     if (range == 0) {
                         c.getPlayer().getMap().broadcastMessage(packet);
                     } else if (range == 1) {
-                        ChannelServer.getInstance(c.getWorld(), c.getChannel()).broadcastPacket(packet);
+                        ChannelServer.getInstance(player.getWorld(), c.getChannel()).broadcastPacket(packet);
                     } else if (range == 2) {
                         World.Broadcast.broadcastMessage(player.getWorld(), packet);
                     }

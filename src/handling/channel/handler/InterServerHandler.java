@@ -85,7 +85,7 @@ public class InterServerHandler {
             c.getSession().write(CWvsContext.enableActions());
             return;
         }
-        World.ChannelChange_Data(new CharacterTransfer(c.getPlayer()), c.getPlayer().getId(), c.getWorld(), 30);
+        World.ChannelChange_Data(new CharacterTransfer(c.getPlayer()), c.getPlayer().getId(), c.getPlayer().getWorld(), 30);
         final String s = c.getSessionIPAddress();
         LoginServer.addIPAuth(s.substring(s.indexOf('/') + 1, s.length()));
         
@@ -134,14 +134,14 @@ public class InterServerHandler {
         final ChannelServer channelServer = c.getChannelServer();
 
         if (state == MapleClient.LOGIN_SERVER_TRANSITION || state == MapleClient.CHANGE_CHANNEL || state == MapleClient.LOGIN_NOTLOGGEDIN) {
-            allowLogin = !World.isCharacterListConnected(c.loadCharacterNames(c.getWorld()));
+            allowLogin = !World.isCharacterListConnected(c.loadCharacterNames(c.getPlayer().getWorld()));
         }
 
         if (state == MapleClient.LOGIN_SERVER_TRANSITION) {
-            for (String charName : c.loadCharacterNames(c.getWorld())) {
+            for (String charName : c.loadCharacterNames(c.getPlayer().getWorld())) {
                 if (World.isConnected(charName)) {
                     System.err.print(charName + " has been unstuck from the login server.");
-                    for (ChannelServer chan : LoginServer.getInstance().getWorld(c.getWorld()).getChannels()) {
+                    for (ChannelServer chan : LoginServer.getInstance().getWorld(c.getPlayer().getWorld()).getChannels()) {
                         for (MapleCharacter chr : chan.getPlayerStorage().getAllCharacters()) {
                             if (chr.getAccountID() == player.getAccountID()) {
                                 chr.saveToDB(true, false);
@@ -155,7 +155,7 @@ public class InterServerHandler {
                 }
             }
         }
-        if (World.isCSConnected(c.loadCharacterIds(c.getWorld()))) {
+        if (World.isCSConnected(c.loadCharacterIds(c.getPlayer().getWorld()))) {
             // this won't happen anymore actually, i managed to fix the cash shop glitch when doing multi-worlds.
             c.getSession().write(CWvsContext.serverNotice(1, "Uh-oh!\r\nLooks like you were stuck in the Cash shop!\r\n\r\nPlease exit back to the login as your character has been fixed."));
             MapleCharacter victim = CashShopServer.getPlayerStorage().getCharacterByName(player.getName());
@@ -219,7 +219,7 @@ public class InterServerHandler {
             final MapleMessenger messenger = player.getMessenger();
             if (messenger != null) {
                 World.Messenger.silentJoinMessenger(messenger.getId(), new MapleMessengerCharacter(c.getPlayer()));
-                World.Messenger.updateMessenger(messenger.getId(), c.getPlayer().getName(), c.getWorld(), c.getChannel());
+                World.Messenger.updateMessenger(messenger.getId(), c.getPlayer().getName(), c.getPlayer().getWorld(), c.getChannel());
             }
 
             // Start of Guild and alliance
@@ -306,7 +306,7 @@ public class InterServerHandler {
             mapid = slea.readInt();
         }
         slea.readInt();
-        if (!World.isChannelAvailable(c.getWorld(), chc)) {
+        if (!World.isChannelAvailable(c.getPlayer().getWorld(), chc)) {
             chr.dropMessage(1, "The channel is full at the moment.");
             c.getSession().write(CWvsContext.enableActions());
             return;
@@ -338,7 +338,7 @@ public class InterServerHandler {
                 if (c.getChannel() != chc) {
                     chr.changeChannel(chc);
                 }
-                final MapleMap warpz = ChannelServer.getInstance(c.getWorld(), c.getChannel()).getMapFactory().getMap(mapid);
+                final MapleMap warpz = ChannelServer.getInstance(c.getPlayer().getWorld(), c.getChannel()).getMapFactory().getMap(mapid);
                 if (warpz != null) {
                     chr.changeMap(warpz, warpz.getPortal("out00"));
                 } else {

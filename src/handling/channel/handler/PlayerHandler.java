@@ -644,7 +644,7 @@ return;
         }
         if (GameConstants.isEventMap(chr.getMapId())) {
             for (MapleEventType t : MapleEventType.values()) {
-                final MapleEvent e = ChannelServer.getInstance(chr.getClient().getWorld(), chr.getClient().getChannel()).getEvent(t);
+                final MapleEvent e = ChannelServer.getInstance(chr.getWorld(), chr.getClient().getChannel()).getEvent(t);
                 if (e.isRunning() && !chr.isGM()) {
                     for (int i : e.getType().mapids) {
                         if (chr.getMapId() == i) {
@@ -796,7 +796,7 @@ return;
             }
             if (GameConstants.isEventMap(chr.getMapId())) {
                 for (MapleEventType t : MapleEventType.values()) {
-                    final MapleEvent e = ChannelServer.getInstance(chr.getClient().getWorld(), chr.getClient().getChannel()).getEvent(t);
+                    final MapleEvent e = ChannelServer.getInstance(chr.getWorld(), chr.getClient().getChannel()).getEvent(t);
                     if (e.isRunning() && !chr.isGM()) {
                         for (int i : e.getType().mapids) {
                             if (chr.getMapId() == i) {
@@ -882,7 +882,7 @@ return;
             }
             if (GameConstants.isEventMap(chr.getMapId())) {
                 for (MapleEventType t : MapleEventType.values()) {
-                    final MapleEvent e = ChannelServer.getInstance(chr.getClient().getWorld(), chr.getClient().getChannel()).getEvent(t);
+                    final MapleEvent e = ChannelServer.getInstance(chr.getWorld(), chr.getClient().getChannel()).getEvent(t);
                     if (e.isRunning() && !chr.isGM()) {
                         for (int i : e.getType().mapids) {
                             if (chr.getMapId() == i) {
@@ -1089,7 +1089,7 @@ return;
         attack = DamageParse.Modify_AttackCrit(attack, chr, 3, effect);
         if (GameConstants.isEventMap(chr.getMapId())) {
             for (MapleEventType t : MapleEventType.values()) {
-                final MapleEvent e = ChannelServer.getInstance(chr.getClient().getWorld(), chr.getClient().getChannel()).getEvent(t);
+                final MapleEvent e = ChannelServer.getInstance(chr.getWorld(), chr.getClient().getChannel()).getEvent(t);
                 if (e.isRunning() && !chr.isGM()) {
                     for (int i : e.getType().mapids) {
                         if (chr.getMapId() == i) {
@@ -1337,7 +1337,7 @@ return;
                     chr.changeMap(to, to.getPortal(0));
                 }
             } else if (targetid != -1 && chr.isIntern()) {
-                final MapleMap to = ChannelServer.getInstance(c.getWorld(), c.getChannel()).getMapFactory().getMap(targetid);
+                final MapleMap to = ChannelServer.getInstance(c.getPlayer().getWorld(), c.getChannel()).getMapFactory().getMap(targetid);
                 if (to != null) {
                     chr.changeMap(to, to.getPortal(0));
                 } else {

@@ -583,7 +583,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         ret.subcategory = ct.subcategory;
 
         if (isChannel) {
-            final MapleMapFactory mapFactory = ChannelServer.getInstance(client.getWorld(), client.getChannel()).getMapFactory();
+            final MapleMapFactory mapFactory = ChannelServer.getInstance(ret.world, client.getChannel()).getMapFactory();
             ret.map = mapFactory.getMap(ret.mapid);
             if (ret.map == null) { //char is on a map that doesn't exist warp it to henesys
                 ret.map = mapFactory.getMap(100000000);
@@ -803,7 +803,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             }
             if (channelserver) {
                 ret.CRand = new PlayerRandomStream();
-                MapleMapFactory mapFactory = ChannelServer.getInstance(client.getWorld(), client.getChannel()).getMapFactory();
+                MapleMapFactory mapFactory = ChannelServer.getInstance(ret.world, client.getChannel()).getMapFactory();
                 ret.map = mapFactory.getMap(ret.mapid);
                 if (ret.map == null) { //char is on a map that doesn't exist warp it to henesys
                     ret.map = mapFactory.getMap(100000000);
@@ -3601,7 +3601,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }
     
     public void changeMap(final int to) {
-        MapleMap map = ChannelServer.getInstance(getClient().getWorld(), getClient().getChannel()).getMapFactory().getMap(to);
+        MapleMap map = ChannelServer.getInstance(getWorld(), getClient().getChannel()).getMapFactory().getMap(to);
         changeMapInternal(map, map.getPortal(0).getPosition(), CField.getWarpToMap(map, 0, this), map.getPortal(0));
     }
 
@@ -3679,7 +3679,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }
     
     private MapleMap getWarpMap(final int map) {
-        return ChannelServer.getInstance(client.getWorld(), client.getChannel()).getMapFactory().getMap(map);
+        return ChannelServer.getInstance(getWorld(), client.getChannel()).getMapFactory().getMap(map);
     }
 
     public final MapleMap getMap(final int map) {
@@ -6038,7 +6038,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         map.broadcastMessage(this, CField.updateCharLook(this), false);
         stats.recalcLocalStats(this);
         if (getMessenger() != null) {
-            World.Messenger.updateMessenger(getMessenger().getId(), getName(), client.getWorld(), client.getChannel());
+            World.Messenger.updateMessenger(getMessenger().getId(), getName(), getWorld(), client.getChannel());
         }
     }
 
@@ -9265,7 +9265,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
 
     public void changeChannel(final int channel) {
         final ChannelServer toch = ChannelServer.getInstance(world, channel);
-        String[] socket = LoginServer.getInstance().getIP(client.getWorld(), channel).split(":");
+        String[] socket = LoginServer.getInstance().getIP(getWorld(), channel).split(":");
         
         if (channel == client.getChannel() || toch == null || toch.isShutdown()) {
             client.getSession().write(CField.serverBlocked(1));

@@ -2027,7 +2027,7 @@ public class InventoryHandler {
             c.getSession().write(InfoPacket.getShowItemGain(reward, (short) amount, true));
 
             if (GameConstants.gachaponRareItem(item.getItemId()) > 0) {
-                World.Broadcast.broadcastSmega(c.getWorld(), CWvsContext.getGachaponMega(c.getPlayer().getName(), " : got a(n)", item, (byte) 2, "[" + box + " Chest]"));
+                World.Broadcast.broadcastSmega(c.getPlayer().getWorld(), CWvsContext.getGachaponMega(c.getPlayer().getName(), " : got a(n)", item, (byte) 2, "[" + box + " Chest]"));
             }
         } else {
             chr.dropMessage(5, "Please check your item inventory and see if you have a Master Key, or if the inventory is full.");
@@ -3049,7 +3049,7 @@ message = WordFilter.illegalArrayCheck(message, c.getPlayer());
                     }
                     boolean ear = slea.readByte() > 0;
 
-                    World.Broadcast.broadcastSmega(c.getWorld(), CWvsContext.tripleSmega(messages, ear, c.getChannel()));
+                    World.Broadcast.broadcastSmega(c.getPlayer().getWorld(), CWvsContext.tripleSmega(messages, ear, c.getChannel()));
                     used = true;
                 } else {
                     c.getPlayer().dropMessage(5, "The usage of Megaphone is currently disabled.");
@@ -3079,7 +3079,7 @@ message = WordFilter.illegalArrayCheck(message, c.getPlayer());
 
                     final boolean ear = slea.readByte() != 0;
 
-                    World.Broadcast.broadcastSmega(c.getWorld(), CWvsContext.serverNotice(25, c.getChannel(), sb.toString(), ear));
+                    World.Broadcast.broadcastSmega(c.getPlayer().getWorld(), CWvsContext.serverNotice(25, c.getChannel(), sb.toString(), ear));
                     used = true;
                 } else {
                     c.getPlayer().dropMessage(5, "The usage of Megaphone is currently disabled.");
@@ -3109,7 +3109,7 @@ message = WordFilter.illegalArrayCheck(message, c.getPlayer());
 
                     final boolean ear = slea.readByte() != 0;
 
-                    World.Broadcast.broadcastSmega(c.getWorld(), CWvsContext.serverNotice(26, c.getChannel(), sb.toString(), ear));
+                    World.Broadcast.broadcastSmega(c.getPlayer().getWorld(), CWvsContext.serverNotice(26, c.getChannel(), sb.toString(), ear));
                     used = true;
                 } else {
                     c.getPlayer().dropMessage(5, "The usage of Megaphone is currently disabled.");
@@ -3131,7 +3131,7 @@ message = WordFilter.illegalArrayCheck(message, c.getPlayer());
                     if (message.length() > 65) {
                         break;
                     }
-                    World.Broadcast.broadcastSmega(c.getWorld(), CWvsContext.echoMegaphone(c.getPlayer().getName(), message));
+                    World.Broadcast.broadcastSmega(c.getPlayer().getWorld(), CWvsContext.echoMegaphone(c.getPlayer().getName(), message));
                     used = true;
                 } else {
                     c.getPlayer().dropMessage(5, "The usage of Megaphone is currently disabled.");
@@ -3160,7 +3160,7 @@ message = WordFilter.illegalArrayCheck(message, c.getPlayer());
                     sb.append(message);
 
                     boolean ear = slea.readByte() != 0;
-                    World.Broadcast.broadcastSmega(c.getWorld(), CWvsContext.serverNotice(9, c.getChannel(), sb.toString(), ear));
+                    World.Broadcast.broadcastSmega(c.getPlayer().getWorld(), CWvsContext.serverNotice(9, c.getChannel(), sb.toString(), ear));
                     used = true;
                 } else {
                     c.getPlayer().dropMessage(5, "The usage of Megaphone is currently disabled.");
@@ -3190,7 +3190,7 @@ message = WordFilter.illegalArrayCheck(message, c.getPlayer());
 
                     boolean ear = slea.readByte() != 0;
 
-                    World.Broadcast.broadcastSmega(c.getWorld(), CWvsContext.serverNotice(22, c.getChannel(), sb.toString(), ear));
+                    World.Broadcast.broadcastSmega(c.getPlayer().getWorld(), CWvsContext.serverNotice(22, c.getChannel(), sb.toString(), ear));
                     used = true;
                 } else {
                     c.getPlayer().dropMessage(5, "The usage of Megaphone is currently disabled.");
@@ -3220,7 +3220,7 @@ message = WordFilter.illegalArrayCheck(message, c.getPlayer());
 
                     boolean ear = slea.readByte() != 0;
 
-                    World.Broadcast.broadcastSmega(c.getWorld(), CWvsContext.serverNotice(3, c.getChannel(), sb.toString(), ear));
+                    World.Broadcast.broadcastSmega(c.getPlayer().getWorld(), CWvsContext.serverNotice(3, c.getChannel(), sb.toString(), ear));
                     used = true;
                 } else {
                     c.getPlayer().dropMessage(5, "The usage of Megaphone is currently disabled.");
@@ -3259,7 +3259,7 @@ message = WordFilter.illegalArrayCheck(message, c.getPlayer());
                         }
                         item = c.getPlayer().getInventory(MapleInventoryType.getByType(invType)).getItem(pos);
                     }
-                    World.Broadcast.broadcastSmega(c.getWorld(), CWvsContext.itemMegaphone(sb.toString(), ear, c.getChannel(), item));
+                    World.Broadcast.broadcastSmega(c.getPlayer().getWorld(), CWvsContext.itemMegaphone(sb.toString(), ear, c.getChannel(), item));
                     used = true;
                 } else {
                     c.getPlayer().dropMessage(5, "The usage of Megaphone is currently disabled.");
@@ -3561,7 +3561,7 @@ message = WordFilter.illegalArrayCheck(message, c.getPlayer());
             case 5370001:
             case 5370000: { // Chalkboard
                 for (MapleEventType t : MapleEventType.values()) {
-                    MapleEvent e = ChannelServer.getInstance(c.getWorld(), c.getChannel()).getEvent(t);
+                    MapleEvent e = ChannelServer.getInstance(c.getPlayer().getWorld(), c.getChannel()).getEvent(t);
                     if (e.isRunning()) {
                         for (int i : e.getType().mapids) {
                             if (c.getPlayer().getMapId() == i) {
@@ -3613,12 +3613,12 @@ message = WordFilter.illegalArrayCheck(message, c.getPlayer());
                             list.add(linez[2]);
                             list.add(linez[3]);
                             final boolean ear = slea.readByte() != 0;
-                            World.Broadcast.broadcastSmega(c.getWorld(), CWvsContext.getAvatarMega(c.getPlayer(), c.getChannel(), itemId, list, ear));
+                            World.Broadcast.broadcastSmega(c.getPlayer().getWorld(), CWvsContext.getAvatarMega(c.getPlayer(), c.getChannel(), itemId, list, ear));
                             used = true;
                         } else {
                             lines.add(text);
                             final boolean ear = slea.readByte() != 0;
-                            World.Broadcast.broadcastSmega(c.getWorld(), CWvsContext.getAvatarMega(c.getPlayer(), c.getChannel(), itemId, lines, ear));
+                            World.Broadcast.broadcastSmega(c.getPlayer().getWorld(), CWvsContext.getAvatarMega(c.getPlayer(), c.getChannel(), itemId, lines, ear));
                             used = true;
                         }
                     }

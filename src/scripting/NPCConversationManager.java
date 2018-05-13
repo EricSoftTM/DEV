@@ -994,7 +994,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
    }
     
      public int getJQMap() {
-      return LoginServer.getInstance().getWorld(c.getWorld()).getEventMap();
+      return LoginServer.getInstance().getWorld(c.getPlayer().getWorld()).getEventMap();
   }
     
     public int getEventMap() {
@@ -1003,7 +1003,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
          * @param: <Returning> that it equals the map, otherwise we put 0 
          * @param: <Returning> so that it says wtf are you doing here instead of loading.
          */
-        int eventMap = LoginServer.getInstance().getWorld(c.getWorld()).getEventMap();
+        int eventMap = LoginServer.getInstance().getWorld(c.getPlayer().getWorld()).getEventMap();
         if (getPlayer().getMapId() == 690000067 && eventMap == 690000066) {
             return 690000067; // Forest of Patience
         } else if (getPlayer().getMapId() == 280020001 && eventMap == 280020000) {
@@ -1037,7 +1037,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             return true; // Forest of Endurance
         } else if (player.getMapId() >= 910530000 && player.getMapId() <= 910530001) {
             return true; // Forest of Tenacity
-        } else if (player.getMapId() == LoginServer.getInstance().getWorld(c.getWorld()).getEventMap()) {
+        } else if (player.getMapId() == LoginServer.getInstance().getWorld(c.getPlayer().getWorld()).getEventMap()) {
             return true;    
         } else {
             return false; // invalid - will return unavailable | wrong map
@@ -1068,12 +1068,12 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
     }
 
   public void setEventMap(int id) {
-        LoginServer.getInstance().getWorld(c.getWorld()).setEventMap(id);
-        LoginServer.getInstance().getWorld(c.getWorld()).setJQChannel(-1); // could use 0 but whatever? o.O this will never be used unless a GM has hosted
+        LoginServer.getInstance().getWorld(c.getPlayer().getWorld()).setEventMap(id);
+        LoginServer.getInstance().getWorld(c.getPlayer().getWorld()).setJQChannel(-1); // could use 0 but whatever? o.O this will never be used unless a GM has hosted
   }
   
   public void serverNotice(String msg) {
-      World.Broadcast.broadcastMessage(c.getWorld(), CWvsContext.serverNotice(6, "[Notice] " + msg));
+      World.Broadcast.broadcastMessage(c.getPlayer().getWorld(), CWvsContext.serverNotice(6, "[Notice] " + msg));
   }
   
   public void gainCurrency(short amount) {
@@ -1180,7 +1180,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             }
             final byte rareness = GameConstants.gachaponRareItem(item.getItemId());
             if (rareness > 0) {
-                World.Broadcast.broadcastMessage(c.getWorld(), CWvsContext.getGachaponMega(c.getPlayer().getName(), " : got a(n)", item, rareness, msg));
+                World.Broadcast.broadcastMessage(c.getPlayer().getWorld(), CWvsContext.getGachaponMega(c.getPlayer().getName(), " : got a(n)", item, rareness, msg));
             }
             c.getSession().write(InfoPacket.getShowItemGain(item.getItemId(), (short) quantity, true));
             return item.getItemId();
@@ -1227,7 +1227,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
                 return -1;
             }
             if (grade >= 2 && grade != 5) {
-                World.Broadcast.broadcastMessage(c.getWorld(), CWvsContext.getGachaponMega(c.getPlayer().getName(), " : got a(n)", item, (byte) 0, "Maple World"));
+                World.Broadcast.broadcastMessage(c.getPlayer().getWorld(), CWvsContext.getGachaponMega(c.getPlayer().getName(), " : got a(n)", item, (byte) 0, "Maple World"));
             }
             c.getSession().write(InfoPacket.getShowItemGain(newId, (short) 1, true));
             gainItem(2430748, (short) 1);
@@ -1397,7 +1397,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         }
         List<MapleCharacter> chars = new LinkedList<>(); // creates an empty array full of shit..
         for (MaplePartyCharacter chr : getPlayer().getParty().getMembers()) {
-            for (ChannelServer channel : LoginServer.getInstance().getWorld(c.getWorld()).getChannels()) {
+            for (ChannelServer channel : LoginServer.getInstance().getWorld(c.getPlayer().getWorld()).getChannels()) {
                 MapleCharacter ch = channel.getPlayerStorage().getCharacterById(chr.getId());
                 if (ch != null) { // double check <3
                     chars.add(ch);
@@ -1479,7 +1479,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
     public boolean registerSquad(String type, int minutes, String startText) {
         if (c.getChannelServer().getMapleSquad(type) == null) {
-            final MapleSquad squad = new MapleSquad(c.getWorld(), c.getChannel(), type, c.getPlayer(), minutes * 60 * 1000, startText);
+            final MapleSquad squad = new MapleSquad(c.getPlayer().getWorld(), c.getChannel(), type, c.getPlayer(), minutes * 60 * 1000, startText);
             final boolean ret = c.getChannelServer().addMapleSquad(squad, type);
             if (ret) {
                 final MapleMap map = c.getPlayer().getMap();
@@ -2054,7 +2054,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
         if (ii.getItemEffect(buff) != null && getPlayer().getGuildId() > 0) {
             final MapleStatEffect mse = ii.getItemEffect(buff);
-            for (ChannelServer cserv : LoginServer.getInstance().getWorld(c.getWorld()).getChannels()) {
+            for (ChannelServer cserv : LoginServer.getInstance().getWorld(c.getPlayer().getWorld()).getChannels()) {
                 for (MapleCharacter chr : cserv.getPlayerStorage().getAllCharacters()) {
                     if (chr.getGuildId() == getPlayer().getGuildId()) {
                         mse.applyTo(chr, chr, true, null, duration);
@@ -2199,7 +2199,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
   }
 
      public void warpMapAutoJQers(int id) {
-       for (MapleCharacter jqers : LoginServer.getInstance().getWorld(c.getWorld()).getPlayerStorage().getAllCharacters()) {
+       for (MapleCharacter jqers : LoginServer.getInstance().getWorld(c.getPlayer().getWorld()).getPlayerStorage().getAllCharacters()) {
          if (getEventMapWarp(jqers)) { // this is so we catch all the characters within the jq maps (even staged)*
              jqers.changeMap(id);
         }

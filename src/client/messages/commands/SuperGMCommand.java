@@ -635,7 +635,7 @@ public class SuperGMCommand {
                     }
                     return true;
                 case "speakworld":
-                    for (ChannelServer cserv : LoginServer.getInstance().getWorld(c.getWorld()).getChannels()) {
+                    for (ChannelServer cserv : LoginServer.getInstance().getWorld(player.getWorld()).getChannels()) {
                         for (MapleCharacter victim2 : cserv.getPlayerStorage().getAllCharacters()) {
                             if (victim2.getId() != c.getPlayer().getId()) {
                                 victim2.getMap().broadcastMessage(CField.getChatText(victim2.getId(), StringUtil.joinStringFrom(splitted, 1), victim2.isGM(), 0));
@@ -679,7 +679,7 @@ public class SuperGMCommand {
                     return true;
                
                 case "tmegaphone":
-                    World.toggleMegaphoneMuteState(c.getWorld());
+                    World.toggleMegaphoneMuteState(player.getWorld());
                     c.getPlayer().dropMessage(6, "Megaphone state : " + (c.getChannelServer().getMegaphoneMuteState() ? "Enabled" : "Disabled"));
                     return true;
                 case "sreactor":
@@ -921,7 +921,7 @@ public class SuperGMCommand {
                     MapleShopFactory.getInstance().clear();
                     return true;
                 case "reloadevents":
-                    for (ChannelServer ch : LoginServer.getInstance().getWorld(c.getWorld()).getChannels()) {
+                    for (ChannelServer ch : LoginServer.getInstance().getWorld(player.getWorld()).getChannels()) {
                         ch.reloadEvents();
                     }
                     return true;

@@ -284,7 +284,7 @@ public class MapleServerHandler extends IoHandlerAdapter implements MapleServerH
                 new MapleAESOFB(ivSend, (short) (0xFFFF - ServerConstants.MAPLE_VERSION)), // Sent Cypher
                 new MapleAESOFB(ivRecv, ServerConstants.MAPLE_VERSION), // Recv Cypher
                 session);
-        client.setWorld(world);
+        //client.setWorld(world);
         client.setChannel(channel);
 
         MaplePacketDecoder.DecoderState decoderState = new MaplePacketDecoder.DecoderState();

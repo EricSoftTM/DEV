@@ -158,7 +158,7 @@ public class CharLoginHandler {
         final List<Integer> count = new ArrayList<>();
         PlayerStorage strg = LoginServer.getInstance().getWorld(worldId).getPlayerStorage();
         for (MapleCharacter chrs : strg.getAllCharacters()) {
-            if (chrs.getClient().getWorld() == worldId) {
+            if (chrs.getWorld() == worldId) {
                 count.add(chrs.getId());
             }
         }
@@ -315,7 +315,7 @@ public class CharLoginHandler {
     //        return;
     //    }
         
-        if (MapleCharacterUtil.canCreateChar(name, c.isGm()) && (!LoginInformationProvider.getInstance().isForbiddenName(name) || c.isGm()) && (c.isGm() || c.canMakeCharacter(c.getWorld()))) {
+        if (MapleCharacterUtil.canCreateChar(name, c.isGm()) && (!LoginInformationProvider.getInstance().isForbiddenName(name) || c.isGm()) && (c.isGm() || c.canMakeCharacter(c.getPlayer().getWorld()))) {
             MapleCharacter.saveNewCharToDB(newchar, jobType, db);
             c.getSession().write(LoginPacket.addNewCharEntry(newchar, true));
             c.createdChar(newchar.getId());
@@ -449,7 +449,7 @@ public class CharLoginHandler {
         newchar.getInventory(MapleInventoryType.USE).addItem(new Item(2000004, (byte) 0, (short) 100, (byte) 0));
         newchar.getInventory(MapleInventoryType.USE).addItem(new Item(2000004, (byte) 0, (short) 100, (byte) 0));
         c.getPlayer().fakeRelog();
-        if (MapleCharacterUtil.canCreateChar(name, c.isGm()) && (!LoginInformationProvider.getInstance().isForbiddenName(name) || c.isGm()) && (c.isGm() || c.canMakeCharacter(c.getWorld()))) {
+        if (MapleCharacterUtil.canCreateChar(name, c.isGm()) && (!LoginInformationProvider.getInstance().isForbiddenName(name) || c.isGm()) && (c.isGm() || c.canMakeCharacter(c.getPlayer().getWorld()))) {
             MapleCharacter.saveNewCharToDB(newchar, jobType, (short) 0);
             c.createdChar(newchar.getId());
             MapleQuest.getInstance(20734).forceComplete(c.getPlayer(), 1101000);
@@ -502,7 +502,7 @@ public class CharLoginHandler {
             c.setWorld(slea.readInt());
         }
         final String currentpw = c.getSecondPassword();
-        if (!c.isLoggedIn() || loginFailCount(c) || (currentpw != null && (!currentpw.equals("") || haspic)) || !c.login_Auth(charId) || ChannelServer.getInstance(c.getWorld(), c.getChannel()) == null || c.getWorld() != world.getId()) { // TODOO: MULTI WORLDS
+        if (!c.isLoggedIn() || loginFailCount(c) || (currentpw != null && (!currentpw.equals("") || haspic)) || !c.login_Auth(charId) || ChannelServer.getInstance(c.getPlayer().getWorld(), c.getChannel()) == null || c.getPlayer().getWorld() != world.getId()) { // TODOO: MULTI WORLDS
             c.getSession().close();
             return;
         }
@@ -527,7 +527,7 @@ public class CharLoginHandler {
         final String s = c.getSessionIPAddress();
         LoginServer.putLoginAuth(charId, s.substring(s.indexOf('/') + 1, s.length()), c.getTempIP());
         c.updateLoginState(MapleClient.LOGIN_SERVER_TRANSITION, s);
-        String[] socket = LoginServer.getInstance().getIP(c.getWorld(), c.getChannel()).split(":");
+        String[] socket = LoginServer.getInstance().getIP(c.getPlayer().getWorld(), c.getChannel()).split(":");
         try {
             c.announce(CField.getServerIP(c, InetAddress.getByName(socket[0]), Integer.parseInt(socket[1]), charId));
         } catch (UnknownHostException | NumberFormatException e) {
@@ -541,7 +541,7 @@ public class CharLoginHandler {
             c.setChannel(1);
             c.setWorld(slea.readInt());
         }
-        if (!c.isLoggedIn() || loginFailCount(c) || c.getSecondPassword() == null || !c.login_Auth(charId) || ChannelServer.getInstance(c.getWorld(), c.getChannel()) == null || c.getWorld() != world.getId()) { // TODOO: MULTI WORLDS
+        if (!c.isLoggedIn() || loginFailCount(c) || c.getSecondPassword() == null || !c.login_Auth(charId) || ChannelServer.getInstance(c.getPlayer().getWorld(), c.getChannel()) == null || c.getPlayer().getWorld() != world.getId()) { // TODOO: MULTI WORLDS
             c.getSession().close();
             return;
         }
@@ -556,7 +556,7 @@ public class CharLoginHandler {
             LoginServer.putLoginAuth(charId, s.substring(s.indexOf('/') + 1, s.length()), c.getTempIP());
             c.updateLoginState(MapleClient.LOGIN_SERVER_TRANSITION, s);
             
-            String[] socket = LoginServer.getInstance().getIP(c.getWorld(), c.getChannel()).split(":");
+            String[] socket = LoginServer.getInstance().getIP(c.getPlayer().getWorld(), c.getChannel()).split(":");
             try {
                 c.announce(CField.getServerIP(c, InetAddress.getByName(socket[0]), Integer.parseInt(socket[1]), charId));
             } catch (UnknownHostException | NumberFormatException e) {
@@ -639,7 +639,7 @@ public class CharLoginHandler {
         Map<Integer, Integer> cids = new LinkedHashMap();
         for (int i = 1; i <= 6; i++) {
             int charId = slea.readInt();
-            if (((!c.login_Auth(charId)) && (charId != 0)) || (ChannelServer.getInstance(c.getWorld(), c.getChannel()) == null)) {
+            if (((!c.login_Auth(charId)) && (charId != 0)) || (ChannelServer.getInstance(c.getPlayer().getWorld(), c.getChannel()) == null)) {
                 c.getSession().close(true);
                 return;
             }

@@ -524,7 +524,7 @@ public class ChatHandler {
                             final int position = messenger.getLowestPosition();
                             if (position > -1 && position < 4) {
                                 c.getPlayer().setMessenger(messenger);
-                                World.Messenger.joinMessenger(messenger.getId(), new MapleMessengerCharacter(c.getPlayer()), c.getPlayer().getName(), c.getWorld(), c.getChannel());
+                                World.Messenger.joinMessenger(messenger.getId(), new MapleMessengerCharacter(c.getPlayer()), c.getPlayer().getName(), c.getPlayer().getWorld(), c.getChannel());
                             }
                         }
                     }
@@ -560,7 +560,7 @@ public class ChatHandler {
                         }
                     } else {
                         if (World.isConnected(input)) {
-                            World.Messenger.messengerInvite(c.getPlayer().getName(), messenger.getId(), input, c.getWorld(), c.getChannel(), c.getPlayer().isIntern());
+                            World.Messenger.messengerInvite(c.getPlayer().getName(), messenger.getId(), input, c.getPlayer().getWorld(), c.getChannel(), c.getPlayer().isIntern());
                         } else {
                             c.getSession().write(CField.messengerNote(input, 4, 0));
                         }

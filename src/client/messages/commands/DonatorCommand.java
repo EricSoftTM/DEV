@@ -96,7 +96,7 @@ public class DonatorCommand {
                     return true;
                 case "donline":
                     if (player.isGM()) { // GMs visible within the check
-                        for (ChannelServer ch : LoginServer.getInstance().getWorld(c.getWorld()).getChannels()) {
+                        for (ChannelServer ch : LoginServer.getInstance().getWorld(player.getWorld()).getChannels()) {
                             String s = "Current Characters Online [Channel " + ch.getChannel() + " Online: " + ch.getPlayerStorage().getAllCharacters().size() + "] : ";
                             if (ch.getPlayerStorage().getAllCharacters().size() < 999) {
                                 for (MapleCharacter chr : ch.getPlayerStorage().getAllCharacters()) {
@@ -106,7 +106,7 @@ public class DonatorCommand {
                             }
                         }
                     } else { // GMs invisible within the check
-                        for (ChannelServer ch : LoginServer.getInstance().getWorld(c.getWorld()).getChannels()) {
+                        for (ChannelServer ch : LoginServer.getInstance().getWorld(player.getWorld()).getChannels()) {
                             String s = "Current Characters Online [Channel " + ch.getChannel() + " Online: " + ch.getPlayerStorage().getAllCharacters().size() + "] : ";
                             if (ch.getPlayerStorage().getAllCharacters().size() < 999) {
                                 for (MapleCharacter chr : ch.getPlayerStorage().getAllCharacters()) {

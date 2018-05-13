@@ -212,7 +212,7 @@ public abstract class AbstractPlayerInteraction {
     }
 
     private MapleMap getWarpMap(final int map) {
-        return ChannelServer.getInstance(c.getWorld(), c.getChannel()).getMapFactory().getMap(map);
+        return ChannelServer.getInstance(c.getPlayer().getWorld(), c.getChannel()).getMapFactory().getMap(map);
     }
 
     public final MapleMap getMap() {
@@ -547,7 +547,7 @@ public abstract class AbstractPlayerInteraction {
     }
 
     public final void worldMessage(final int type, final String message) {
-        World.Broadcast.broadcastMessage(c.getWorld(), CWvsContext.serverNotice(type, message));
+        World.Broadcast.broadcastMessage(c.getPlayer().getWorld(), CWvsContext.serverNotice(type, message));
     }
 
     // default playerMessage and mapMessage to use type 5
@@ -1294,7 +1294,7 @@ public abstract class AbstractPlayerInteraction {
     public final void prepareAswanMob(int mapid, EventManager eim) {
         MapleMap map = eim.getMapFactory().getMap(mapid);
         if (c.getPlayer().getParty() != null) {
-            map.setChangeableMobOrigin(ChannelServer.getInstance(c.getWorld(), c.getChannel()).getPlayerStorage().getCharacterById(c.getPlayer().getParty().getLeader().getId()));
+            map.setChangeableMobOrigin(ChannelServer.getInstance(c.getPlayer().getWorld(), c.getChannel()).getPlayerStorage().getCharacterById(c.getPlayer().getParty().getLeader().getId()));
         } else {
             map.setChangeableMobOrigin(c.getPlayer());
         }

@@ -29,7 +29,7 @@ public class MapleCarnivalParty {
         }
         team = team1;
         channel = owner.getClient().getChannel();
-        world = owner.getClient().getWorld();
+        world = owner.getWorld();
     }
 
     public final MapleCharacter getLeader() {

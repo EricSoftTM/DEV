@@ -804,11 +804,11 @@ public class PlayerCommand {
             return true;
         case "online":
         case "connected":
-            for (ChannelServer cs : LoginServer.getInstance().getWorld(c.getWorld()).getChannels()) {
+            for (ChannelServer cs : LoginServer.getInstance().getWorld(player.getWorld()).getChannels()) {
                 c.getPlayer().dropMessage(6, "Total Players Online: " + cs.getPlayerStorage().getOnlinePlayers(false));
             }
             c.getPlayer().dropMessage(6, "Characters on Channel " + c.getChannel() + ":");
-            c.getPlayer().dropMessage(6, ChannelServer.getInstance(c.getWorld(), c.getChannel()).getPlayerStorage().getOnlinePlayers(false));
+            c.getPlayer().dropMessage(6, ChannelServer.getInstance(player.getWorld(), c.getChannel()).getPlayerStorage().getOnlinePlayers(false));
             return true;
         default:
             c.getPlayer().showMessage(splitted[0].substring(1) + " does not exist.");
