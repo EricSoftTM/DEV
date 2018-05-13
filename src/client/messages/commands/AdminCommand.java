@@ -225,7 +225,7 @@ public class AdminCommand {
                     }
                     return true;
                 case "clisten":
-                    for (MapleCharacter chars : World.getAllCharacters()) {
+                    for (MapleCharacter chars : LoginServer.getInstance().getWorld(player.getWorld()).getPlayerStorage().getAllCharacters()) {
                             if (chars.getWatcher() == player) {
                                 chars.clearWatcher();
                             }
@@ -234,7 +234,7 @@ public class AdminCommand {
                     return true;
                 case "listen":
                 case "watchserver":
-                    for (MapleCharacter chars : World.getAllCharacters()) {
+                    for (MapleCharacter chars : LoginServer.getInstance().getWorld(player.getWorld()).getPlayerStorage().getAllCharacters()) {
                         if (chars.getWatcher() == null && chars != player) {
                              chars.setWatcher(player);
                         }
@@ -392,7 +392,7 @@ public class AdminCommand {
                     player.getMap().spawnMonsterOnGroudBelow(MapleLifeFactory.getMonster(8820001), player.getPosition());
                     return true;
                 case "iplist":
-                    for (MapleCharacter chr : World.getAllCharacters()){
+                    for (MapleCharacter chr : LoginServer.getInstance().getWorld(player.getWorld()).getPlayerStorage().getAllCharacters()) {
                         if (chr == player || chr.isAdmin()) {
                             player.dropMessage(5, chr.getName() + " is an Admin, will not show IP.");
                         } else {
@@ -543,10 +543,12 @@ public class AdminCommand {
                     player.dropMessage(6, "11 - Prone (Basically the down Arrow)");
                     return true;
                 case "saveall":
-                    for (MapleCharacter chr : World.getAllCharacters()) {
-                        chr.dropMessage(6, "Development is saving all users, please wait..");
-                        chr.saveToDB(false, false);
-                        chr.dropMessage("Save Completed!");
+                    for (World w : LoginServer.getInstance().getWorlds()) {
+                        for (MapleCharacter chr : w.getPlayerStorage().getAllCharacters()) {
+                            chr.dropMessage(6, "Development is saving all users, please wait..");
+                            chr.saveToDB(false, false);
+                            chr.dropMessage("Save Completed!");
+                        }
                     }
                     return true;
                 case "jobperson":
@@ -1001,7 +1003,7 @@ public class AdminCommand {
                     if (splitted.length > 1) {
                         final int rate = Integer.parseInt(splitted[1]);
                         if (splitted.length > 2 && splitted[2].equalsIgnoreCase("all")) {
-                            for (World worlds : LoginServer.getWorlds()) {
+                            for (World worlds : LoginServer.getInstance().getWorlds()) {
                                 worlds.setExpRate(rate);
                             }
                         } else {
@@ -1016,7 +1018,7 @@ public class AdminCommand {
                     if (splitted.length > 1) {
                         final int rate = Integer.parseInt(splitted[1]);
                         if (splitted.length > 2 && splitted[2].equalsIgnoreCase("all")) {
-                                for (World worlds : LoginServer.getWorlds()) {
+                                for (World worlds : LoginServer.getInstance().getWorlds()) {
                                 worlds.setMesoRate(rate);
                             }
                         } else {
@@ -1079,8 +1081,10 @@ public class AdminCommand {
                     y = x * 60;
                     z = y * 1000;
                     time = z;
-                    for (MapleCharacter all : World.getAllCharacters()) {
-                      all.getClient().getSession().write(CWvsContext.getMidMsg("Performing an immediate Shutdown in " + x + " minute(s)..", true, 1));
+                    for (World w : LoginServer.getInstance().getWorlds()) {
+                        for (MapleCharacter all : w.getPlayerStorage().getAllCharacters()) {
+                            all.announce(CWvsContext.getMidMsg("Performing an immediate Shutdown in " + x + " minute(s)..", true, 1));
+                      }
                     }
                     World.Shutdown = true;
                          EventTimer.getInstance().schedule(new Runnable() {

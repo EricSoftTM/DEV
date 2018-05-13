@@ -122,31 +122,34 @@ public class EventManager {
     }
     
     public void AutoUnstucker() {
-            List<String> playerz = new ArrayList<>();
-                for (MapleCharacter players : World.getAllCharacters()) {
-                    //if(players.getClient().getSession().isClosing() && players != null && players.getClient().isLoggedIn() && players.getMap() != null){
-                    if (players == null || players.getClient().getSession().isClosing() || (players.getClient().isLoggedIn() && players.getMap() == null)) {
-                        playerz.add(players.getName() + ", ");
-                        getChannelServer().getPlayerStorage().deregisterPlayer(players);
-                        // System.out.println("Deregistered");
-                        getChannelServer().getPlayerStorage().deregisterPendingPlayer(players.getId());
-                        // System.out.println("Deregistered charid and name");
-                        players.getClient().getSession().close();
-                        // System.out.println("Closed session");
-                        players.getClient().disconnect(true, true);
-                        // System.out.println("Disconnected");
-                    }
-                }
-                if (playerz.size() > 0) {
-                       System.out.println("Unstucked " + playerz.size() + " players.");
-                }
+        int count = 0;
+        for (Iterator<MapleCharacter> it = LoginServer.getInstance().getWorld(world).getChannel(channel).getPlayerStorage().getAllCharacters().iterator(); it.hasNext();) {
+            MapleCharacter player = it.next();
+            if (player == null) {
+                it.remove();
+                count++;
+            } else if (player.getClient().getSession().isClosing() || (player.getClient().isLoggedIn() && player.getMap() == null)) {
+                it.remove();
+                // System.out.println("Deregistered");
+                getChannelServer().getPlayerStorage().deregisterPendingPlayer(player.getId());
+                // System.out.println("Deregistered charid and name");
+                player.getClient().getSession().close();
+                // System.out.println("Closed session");
+                player.getClient().disconnect(true, true);
+                // System.out.println("Disconnected");
+                count++;
+            }
+        }
+        if (count > 0) {
+            System.out.println("Unstucked " + count + " players.");
+        }
     }
     
     public void AutoJQ(int map) {
-        World.setEventOn(true);
-        World.setEventMap(map);
+        LoginServer.getInstance().getWorld(world).setEventOn(true);
+        LoginServer.getInstance().getWorld(world).setEventMap(map);
         //if (World.getEventOn() && World.getEventMap() > 0)
-        World.AutoJQ.getInstance().openAutoJQ();
+        LoginServer.getInstance().getWorld(world).getAutoJQ().openAutoJQ();
     }
 
     public ScheduledFuture<?> scheduleAtTimestamp(final String methodName, long timestamp) {
@@ -194,7 +197,7 @@ public class EventManager {
             setProperty("leader", "true");
         }
         if (this.name.equals("CWKPQ")) { //hard code it because i said so
-            for (World worlds : LoginServer.getWorlds()) {
+            for (World worlds : LoginServer.getInstance().getWorlds()) {
                 for (ChannelServer channels : worlds.getChannels()) {
                     final MapleSquad squad = channels.getMapleSquad("CWKPQ");//so fkin hacky
                     if (squad != null) {
@@ -446,7 +449,7 @@ public class EventManager {
     }
 
     public boolean scheduleRandomEventInChannel(int chz) {
-        for (World worlds : LoginServer.getWorlds()) {
+        for (World worlds : LoginServer.getInstance().getWorlds()) {
             final ChannelServer cs = worlds.getChannel(chz); 
             if (cs == null || cs.getEvent() > -1) {
                 return false;
@@ -480,7 +483,7 @@ public class EventManager {
     }
 
     public void setWorldEvent() {
-        for (World worlds : LoginServer.getWorlds()) {
+        for (World worlds : LoginServer.getInstance().getWorlds()) {
             for (int i = 0; i < eventChannel.length; i++) {
                 eventChannel[i] = Randomizer.nextInt(worlds.getChannels().size()) + i; //2-13
             }

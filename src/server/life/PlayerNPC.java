@@ -127,7 +127,7 @@ public class PlayerNPC extends MapleNPC implements MapleCharacterLook {
     }
 
     public void addToServer() {
-        for (World worlds : LoginServer.getWorlds()) {
+        for (World worlds : LoginServer.getInstance().getWorlds()) {
             for (ChannelServer cserv : worlds.getChannels()) {
                 cserv.addPlayerNPC(this);
             }
@@ -135,7 +135,7 @@ public class PlayerNPC extends MapleNPC implements MapleCharacterLook {
     }
 
     public void removeFromServer() {
-        for (World worlds : LoginServer.getWorlds()) {
+        for (World worlds : LoginServer.getInstance().getWorlds()) {
             for (ChannelServer cserv : worlds.getChannels()) {
                 cserv.removePlayerNPC(this);
             }

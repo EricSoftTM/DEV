@@ -966,7 +966,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
               }
      
      public void startMonsterRush() { // don't use my sloppy code until i re-build this entire system #EricsOldCodeIsLul
-       for (int l = 1; l <= LoginServer.getWorlds().size(); l++) { //ChannelServer instance [l]
+       for (int l = 1; l <= LoginServer.getInstance().getWorlds().size(); l++) { //ChannelServer instance [l]
              //ChannelServer.getInstance(l).MonsterRush = true;
              //MapleMonsterStats newStats = new MapleMonsterStats();
              //newStats.setHp(2000000000);
@@ -994,7 +994,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
    }
     
      public int getJQMap() {
-      return World.getEventMap();
+      return LoginServer.getInstance().getWorld(c.getWorld()).getEventMap();
   }
     
     public int getEventMap() {
@@ -1003,18 +1003,19 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
          * @param: <Returning> that it equals the map, otherwise we put 0 
          * @param: <Returning> so that it says wtf are you doing here instead of loading.
          */
-        if (getPlayer().getMapId() == 690000067 && World.getEventMap() == 690000066) {
+        int eventMap = LoginServer.getInstance().getWorld(c.getWorld()).getEventMap();
+        if (getPlayer().getMapId() == 690000067 && eventMap == 690000066) {
             return 690000067; // Forest of Patience
-        } else if (getPlayer().getMapId() == 280020001 && World.getEventMap() == 280020000) {
+        } else if (getPlayer().getMapId() == 280020001 && eventMap == 280020000) {
             return 280020001; // Zakum
-        } else if (getPlayer().getMapId() == 109040004 && World.getEventMap() == 109040000) {
+        } else if (getPlayer().getMapId() == 109040004 && eventMap == 109040000) {
             return 109040004; // Fitness
-        } else if (getPlayer().getMapId() == 910130102 && World.getEventMap() == 910130100) {
+        } else if (getPlayer().getMapId() == 910130102 && eventMap == 910130100) {
             return 910130102; // Forest of Endurance
-        } else if (getPlayer().getMapId() == 910530001 && World.getEventMap() == 910530000) {
+        } else if (getPlayer().getMapId() == 910530001 && eventMap == 910530000) {
             return 910530001; // Forest of Tenacity
-        } else if (getPlayer().getMapId() == World.getEventMap()) {
-            return World.getEventMap();    
+        } else if (getPlayer().getMapId() == eventMap) {
+            return eventMap;    
         } else {
             return 0; // invalid - will return unavailable | wrong map
         }
@@ -1036,7 +1037,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             return true; // Forest of Endurance
         } else if (player.getMapId() >= 910530000 && player.getMapId() <= 910530001) {
             return true; // Forest of Tenacity
-        } else if (player.getMapId() == World.getEventMap()) {
+        } else if (player.getMapId() == LoginServer.getInstance().getWorld(c.getWorld()).getEventMap()) {
             return true;    
         } else {
             return false; // invalid - will return unavailable | wrong map
@@ -1067,8 +1068,8 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
     }
 
   public void setEventMap(int id) {
-        World.setEventMap(id);
-        World.setJQChannel(-1); // could use 0 but whatever? o.O this will never be used unless a GM has hosted
+        LoginServer.getInstance().getWorld(c.getWorld()).setEventMap(id);
+        LoginServer.getInstance().getWorld(c.getWorld()).setJQChannel(-1); // could use 0 but whatever? o.O this will never be used unless a GM has hosted
   }
   
   public void serverNotice(String msg) {
@@ -2198,7 +2199,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
   }
 
      public void warpMapAutoJQers(int id) {
-       for (MapleCharacter jqers : World.getAllCharacters()) {
+       for (MapleCharacter jqers : LoginServer.getInstance().getWorld(c.getWorld()).getPlayerStorage().getAllCharacters()) {
          if (getEventMapWarp(jqers)) { // this is so we catch all the characters within the jq maps (even staged)*
              jqers.changeMap(id);
         }
@@ -2709,7 +2710,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             MapleCharacter chr = ChannelServer.getInstance(world, channel).getPlayerStorage().getCharacterById(id);
             chr.setClanId(0);
             chr.savePlayer();
-            for (MapleCharacter members : World.getAllCharacters()) {
+            for (MapleCharacter members : LoginServer.getInstance().getWorld(getPlayer().getWorld()).getPlayerStorage().getAllCharacters()) {
                 if ((members.getClanId() == getPlayer().getClanId()) && members != getPlayer()) {
                     members.dropMessage(5, "[" + getClanName() + "] " + chr.getName() + " has been kicked from the clan.");
                 }

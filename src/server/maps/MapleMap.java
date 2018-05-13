@@ -2391,9 +2391,6 @@ public final class MapleMap {
         if (chr.getJob() < 3200 || chr.getJob() > 3212) {
             chr.cancelEffectFromBuffStat(MapleBuffStat.AURA);
         }
-        if (GameConstants.isPhantom(chr.getJob())) {
-            chr.fixSkillsByJob(); // because masteries reset upon cc, relog, or even cs exit. when we add to map we fix this issue.
-        }
     }
 
     public int getNumItems() {

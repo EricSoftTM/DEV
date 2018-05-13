@@ -48,13 +48,12 @@ public class LoginServer {
 
     public static final int PORT = 8484;
     
-    private static List<World> worlds = new ArrayList<>();
-    private static List<Map<Integer, String>> channels = new LinkedList<>();
     private static LoginServer instance = null;
+    private List<World> worlds = new ArrayList<>();
+    private List<Map<Integer, String>> channels = new LinkedList<>();
     
-    private static IoAcceptor acceptor;
-    private static Map<Integer, Integer> load = new HashMap<>();
-    private static int maxCharacters, usersOn = 0;
+    private IoAcceptor acceptor;
+    private int maxCharacters, usersOn = 0;
     private static boolean finishedShutdown = true, adminOnly = false;
     private static HashMap<Integer, Pair<String, String>> loginAuth = new HashMap<>();
     private static HashSet<String> loginIPAuth = new HashSet<>();
@@ -85,10 +84,6 @@ public class LoginServer {
 
     public static void addIPAuth(String ip) {
         loginIPAuth.add(ip);
-    }
-
-    public static void addChannel(final int channel) {
-        load.put(channel, 0);
     }
 
     public void removeChannel(int worldid, final int channel) {
@@ -122,7 +117,7 @@ public class LoginServer {
         return channels.get(world).get(channel);
     }
 
-    public static void run_startup_configurations() {
+    public void run_startup_configurations() {
         adminOnly = ServerConstants.Admin_Only;
 
         IoBuffer.setUseDirectBuffer(false);
@@ -183,15 +178,11 @@ public class LoginServer {
         return worlds.get(id);
     }
     
-    public static World getWorldStatic(int id) {
-        return worlds.get(id);
-    }
-    
-    public static List<World> getWorlds() {
+    public List<World> getWorlds() {
         return worlds;
     }
 
-    public static void shutdown() {
+    public void shutdown() {
         if (finishedShutdown) {
             return;
         }
@@ -200,26 +191,8 @@ public class LoginServer {
         finishedShutdown = true; //nothing. lol
     }
 
-    public static int getMaxCharacters() {
+    public int getMaxCharacters() {
         return maxCharacters;
-    }
-
-    // TODO: remove most/all of this below
-    public static Map<Integer, Integer> getLoad() {
-        return load;
-    }
-
-    public static void setLoad(final Map<Integer, Integer> load_, final int usersOn_) {
-        load = load_;
-        usersOn = usersOn_;
-    }
-
-    public static int getUsersOn() {
-        return usersOn;
-    }
-
-    public static int getNumberOfSessions() {
-        return acceptor.getManagedSessions().size();
     }
 
     public static boolean isAdminOnly() {

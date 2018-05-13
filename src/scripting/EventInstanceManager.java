@@ -207,7 +207,7 @@ public class EventInstanceManager {
 
     private boolean unregisterPlayer_NoLock(final MapleCharacter chr) {
         if (name.equals("CWKPQ")) { //hard code it because i said so
-            for (World world : LoginServer.getWorlds()) {
+            for (World world : LoginServer.getInstance().getWorlds()) {
                 final MapleSquad squad = ChannelServer.getInstance(world.getWorldId(), channel).getMapleSquad("CWKPQ");//so fkin hacky
                 if (squad != null) {
                     squad.removeMember(chr.getName());
@@ -537,7 +537,7 @@ public class EventInstanceManager {
 
     public ChannelServer getChannelServer() {
         if (WorldConstants.Worlds > 0) {
-            for (World world : LoginServer.getWorlds()) {
+            for (World world : LoginServer.getInstance().getWorlds()) {
                 return ChannelServer.getInstance(world.getWorldId(), channel);
             }
         }

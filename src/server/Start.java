@@ -14,6 +14,7 @@ import handling.login.LoginServer;
 import handling.world.World;
 import handling.world.family.MapleFamily;
 import handling.world.guild.MapleGuild;
+import java.security.Security;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -70,7 +71,7 @@ public class Start {
         // Server Handler
         MapleServerHandler.initiate();
         // Servers
-        LoginServer.run_startup_configurations();
+        LoginServer.getInstance().run_startup_configurations();
         CashShopServer.run_startup_configurations();
         World.registerRespawn();
         // Information
@@ -102,6 +103,7 @@ public class Start {
     }
 
     public static void main(final String args[]) throws InterruptedException {
+        Security.setProperty("crypto.policy", "unlimited");
         instance.run();
     }
 }

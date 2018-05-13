@@ -21,6 +21,7 @@ import database.DatabaseConnection;
 import handling.cashshop.CashShopServer;
 import handling.channel.ChannelServer;
 import handling.channel.handler.ChatHandler;
+import handling.login.LoginServer;
 import handling.world.World;
 import java.rmi.RemoteException;
 import java.sql.Connection;
@@ -478,9 +479,9 @@ public class GMCommand {
             }
                  return true;
                 case "startevent":
-                    World.setEventMap(109040000);
-                    World.setEventOn(true);
-                    World.AutoJQ.getInstance().openAutoJQ();
+                    LoginServer.getInstance().getWorld(c.getWorld()).setEventOn(true);
+                    LoginServer.getInstance().getWorld(c.getWorld()).setEventMap(109040000);
+                    LoginServer.getInstance().getWorld(c.getWorld()).getAutoJQ().openAutoJQ();
                     World.Broadcast.broadcastMessage(player.getWorld(), CWvsContext.serverNotice(6, c.getChannel(), "[AutoJQ Event] " + player.getName() + " has just created an Automatic Jump Quest Event on Channel " + c.getChannel() + "! Use @join to join it."));
                  return true;
                     case "healmap":
@@ -723,12 +724,12 @@ public class GMCommand {
                  return true;
                 case "startjq":
                     int autojq = Integer.parseInt(splitted[1]);
-                World.setEventMap(autojq);
-                World.eventMap = autojq;
-                World.setJQChannel(c.getChannel());
-                World.setEventOn(true); 
-                World.AutoJQ.getInstance().openAutoJQ();
-                World.Broadcast.broadcastMessage(player.getWorld(), CWvsContext.serverNotice(6, c.getChannel(), "[AutoJQ Event] " + player.getName() + " has just created an Automatic Jump Quest Event On Channel " + c.getChannel() + "! Use @join to join it."));
+                    LoginServer.getInstance().getWorld(c.getWorld()).setEventOn(true);
+                    LoginServer.getInstance().getWorld(c.getWorld()).setEventMap(autojq);
+                    LoginServer.getInstance().getWorld(c.getWorld()).setJQChannel(c.getChannel());
+                    LoginServer.getInstance().getWorld(c.getWorld()).getAutoJQ().openAutoJQ();
+                
+                    World.Broadcast.broadcastMessage(player.getWorld(), CWvsContext.serverNotice(6, c.getChannel(), "[AutoJQ Event] " + player.getName() + " has just created an Automatic Jump Quest Event On Channel " + c.getChannel() + "! Use @join to join it."));
                  return true;
                 case "autojqmaps":
                     player.dropMessage(6, "220000006 - Ludi Pet Park");

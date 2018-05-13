@@ -56,7 +56,7 @@ public class HiredMerchantHandler {
                     c.getPlayer().dropMessage(1, "Please claim your items from Fredrick first.");
                     break;
                 case 0:
-                    boolean merch = World.hasMerchant(c.getPlayer().getAccountID(), c.getPlayer().getId());
+                    boolean merch = World.hasMerchant(c.getPlayer().getWorld(), c.getPlayer().getAccountID(), c.getPlayer().getId());
                     if (!merch) {
                         if (c.getChannelServer().isShutdown()) {
                             c.getPlayer().dropMessage(1, "The server is about to shut down.");
@@ -137,7 +137,7 @@ public class HiredMerchantHandler {
     
     public static void displayMerch(MapleClient c) {
         final int conv = c.getPlayer().getConversation();
-        boolean merch = World.hasMerchant(c.getPlayer().getAccountID(), c.getPlayer().getId());
+        boolean merch = World.hasMerchant(c.getPlayer().getWorld(), c.getPlayer().getAccountID(), c.getPlayer().getId());
         if (merch) {
             c.getPlayer().dropMessage(1, "Please close the existing store and try again.");
             c.getPlayer().setConversation(0);
@@ -204,7 +204,7 @@ public class HiredMerchantHandler {
         if (c.getPlayer().getConversation() != 3) {
             return;
         }
-        boolean merch = World.hasMerchant(c.getPlayer().getAccountID(), c.getPlayer().getId());
+        boolean merch = World.hasMerchant(c.getPlayer().getWorld(), c.getPlayer().getAccountID(), c.getPlayer().getId());
         if (merch) {
             c.getPlayer().dropMessage(1, "Please close the existing store and try again.");
             c.getPlayer().setConversation(0);

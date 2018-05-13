@@ -828,7 +828,7 @@ public class SuperGMCommand {
                     return true;
                 case "servermessage":
                     String outputMessage = StringUtil.joinStringFrom(splitted, 1);
-                    for (World worlds : LoginServer.getWorlds()) {
+                    for (World worlds : LoginServer.getInstance().getWorlds()) {
                         for (ChannelServer cserv : worlds.getChannels()) {
                             cserv.setServerMessage(outputMessage);
                         }
