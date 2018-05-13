@@ -118,9 +118,9 @@ public class PacketHelper {
 
     public static void addSkillInfo(final MaplePacketLittleEndianWriter mplew, final MapleCharacter chr) { // 0x100
         final Map<Skill, SkillEntry> skills = chr.getSkills();
-        boolean useOld = skills.size() < 500;
-        mplew.write(useOld ? 1 : 0); // To handle the old skill system or something? 
-        if (useOld) {
+        boolean newSkill = true;
+        mplew.write(newSkill ? 1 : 0); // To handle the old skill system or something? 
+        if (newSkill) {
             mplew.writeShort(skills.size());
             for (final Entry<Skill, SkillEntry> skill : skills.entrySet()) {
                 mplew.writeInt(skill.getKey().getId());
